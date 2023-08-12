@@ -38,7 +38,7 @@ namespace namespace
         }
     
         // PRIVATE - STATIC
-        private Bar _bar2
+        private static Bar _bar2
         // PRIVATE
         private Bar _bar
         
