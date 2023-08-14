@@ -13,18 +13,37 @@ namespace Template2D
     public class GlobalManager : MonoBehaviour
     {
         // Singleton instance
-        public static GlobalManager Instance { get; private set; }
+        private static GlobalManager _instance;
+        public static GlobalManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<GlobalManager>();
 
+                    if (_instance == null)
+                    {
+                        GameObject go = new GameObject("InputManager");
+                        _instance = go.AddComponent<GlobalManager>();
+                        DontDestroyOnLoad(go);
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        // PRIVATE
         private void Awake()
         {
             // If the singleton hasn't been defined yet
-            if (Instance == null)
+            if (_instance == null)
             {
-                Instance = this;
+                _instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             // If the singleton has another instance and it's not this one
-            else if (Instance != this)
+            else if (_instance != this)
             {
                 // Destroy the current game object, ensuring only one instance is kept
                 Destroy(gameObject);
